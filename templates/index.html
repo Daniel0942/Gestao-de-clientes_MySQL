@@ -14,7 +14,8 @@
         <h1>Gestão de Clientes</h1>
         
         <!--ADD cliente-->
-        <div c-container="{{ url_for( 'cliente.form_cliente') }}""></div>
+        <div id="form_cliente" 
+        c-container="{{ url_for( 'cliente.form_cliente') }}""></div>
 
         <!--Lista de clientes-->
         <div c-container="{{ url_for('cliente.lista_cliente') }}"></div>

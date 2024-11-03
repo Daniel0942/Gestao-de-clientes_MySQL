@@ -7,17 +7,9 @@
             <th scope="col">Ações</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="lista_cliente">
     {% for cliente in clientes %}
-        <tr>
-            <th scope="row">{{ cliente.id }}</th>
-            <td>{{ cliente.Nome }}</td>
-            <td>{{ cliente.Email }}</td>
-            <td>
-                <button class="btn btn-primary">Editar</button>
-                <button class="btn btn-danger">Excluir</button>
-            </td>
-        </tr>
+        {% include 'item_cliente.html' %}
     {% endfor%}
     </tbody>
 </table>
