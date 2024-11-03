@@ -1,12 +1,17 @@
 <form class="c-form" 
-{% if cliente %}
-    action="{{ url_for('cliente.editar_cliente', cliente_id = cliente.id) }}" method="PUT"
-{% else %}
-    action="{{ url_for('cliente.inserir_cliente') }}" 
-    method="POST"
-{% endif %}
+        {% if cliente %}
+            action="{{ url_for('cliente.editar_cliente', cliente_id = cliente.id) }}" 
+        {% else %}
+            action="{{ url_for('cliente.inserir_cliente') }}" 
+        {% endif %}
 
-c-append="#lista_cliente"
+        method="{% if cliente %}PUT{% else %}POST{% endif %}"
+            
+        {% if cliente %}
+            c-swap="#cliente-{{cliente.id}}"
+        {% else%}
+            c-append="#lista_cliente"
+        {% endif %}
 >
     <div class="mb-3">
         <label class="form-label">Nome</label>
