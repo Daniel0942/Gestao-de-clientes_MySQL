@@ -1,11 +1,11 @@
 from flask import Blueprint, render_template, request
-from database.clientes import CLIENTES
-from models.table import Cliente
+from models.table import db, Cliente
 
 cliente_route = Blueprint('cliente', __name__)
 
 @cliente_route.route("/")
 def lista_cliente():
+
     clientes = Cliente.select()
     return render_template("listar_clientes.html", clientes = clientes)
 
@@ -20,33 +20,30 @@ def inserir_cliente():
     data = request.json
     
     novo_usuario = Cliente.create(
-        nome = data["nome"], 
-        email = data["email"]
+        Nome = data["nome"], 
+        Email = data["email"]
         )
     
     return render_template("item_cliente.html", cliente=novo_usuario)
 
 @cliente_route.route("/<int:cliente_id>/exibir")
 def detalhe_cliente(cliente_id):
-    for c in CLIENTES:
-        if c["id"] == cliente_id:
-            cliente = c
+
+    cliente = Cliente.get_by_id(cliente_id)
     return render_template("detalhe_cliente.html", cliente=cliente)
 
 @cliente_route.route("/<int:cliente_id>/delete", methods=["DELETE"])
 def deletar_cliente(cliente_id):
-    global CLIENTES
-    CLIENTES = [c for c in CLIENTES if c["id"] != cliente_id]
+
+    cliente = Cliente.get_by_id(cliente_id)
+    cliente.delete_instance()
     return {"DELETAR": "OK"}
 
 
 @cliente_route.route("/<int:cliente_id>/edit")
 def form_edit_cliente(cliente_id):
 
-    cliente = None
-    for c in CLIENTES:
-        if c["id"] == cliente_id:
-            cliente = c
+    cliente = Cliente.get_by_id(cliente_id)
     return render_template("form.html", cliente=cliente)
 
 @cliente_route.route("/<int:cliente_id>/update", methods=["PUT"])
@@ -58,11 +55,9 @@ def editar_cliente(cliente_id):
     data = request.json
 
     # obter usuario pelo id
-    for c in CLIENTES:
-        if c["id"] == cliente_id:
-            c["Nome"] = data["nome"]
-            c["Email"] = data["email"]
-
-            cliente_editado = c
+    cliente_editado = Cliente.get_by_id(cliente_id)
+    cliente_editado.Nome = data["nome"]
+    cliente_editado.Email = data["email"]
+    cliente_editado.save()
             
     return render_template("item_cliente.html", cliente = cliente_editado)

@@ -1,11 +1,17 @@
-from peewee import SqliteDatabase, Model, CharField, DateTimeField
+from peewee import MySQLDatabase, Model, CharField, DateTimeField
 import datetime
 
-db = SqliteDatabase('Custom_clientes.db')
+db = MySQLDatabase(
+    host = "junction.proxy.rlwy.net",
+    user = "root",
+    password = "oWYRIWUcpsUqBqocUaPswbGEGxkGPEBo",
+    database = "railway",
+    port = 43858
+)
 
 class Cliente(Model):
-    nome = CharField()
-    email = DateTimeField()
+    Nome = CharField()
+    Email = CharField()
     data_registro = DateTimeField(default=datetime.datetime.now())
 
     class Meta:
