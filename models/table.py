@@ -1,12 +1,15 @@
+import os
+from dotenv import  load_dotenv
 from peewee import MySQLDatabase, Model, CharField, DateTimeField
 import datetime
 
+load_dotenv()
 db = MySQLDatabase(
-    host = "junction.proxy.rlwy.net",
-    user = "root",
-    password = "oWYRIWUcpsUqBqocUaPswbGEGxkGPEBo",
-    database = "railway",
-    port = 43858
+    host = os.getenv("host"),
+    user = os.getenv("user"),
+    password = os.getenv("password"),
+    database = os.getenv("database"),
+    port = int(os.getenv("port"))
 )
 
 class Cliente(Model):
